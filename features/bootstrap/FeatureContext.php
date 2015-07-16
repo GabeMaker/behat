@@ -17,4 +17,25 @@ class FeatureContext extends BehatContext
         }
         chdir($dir);
     }
+
+    /**
+     * @Given /^I have a file named "([^"]*)"$/
+     */
+    public function iHaveAFileNamed($file)
+    {
+        touch($file);
+    }
+
+    /**
+     * @When /^I run "([^"]*)"$/
+     */
+    public function iRun($program)
+    {
+        exec($program, $output);
+        $this->output = trim(implode("\n", $output));
+    }
+
+
+
+
 }
