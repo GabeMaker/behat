@@ -7,9 +7,7 @@ use Behat\Gherkin\Node\PyStringNode,
 
 class FeatureContext extends BehatContext
 {
-    /**
-     * @Given /^I am in a directory "([^"]*)"$/
-     */
+    /** @Given /^I am in a directory "([^"]*)"$/ */
     public function iAmInADirectory($dir)
     {
         if (!file_exists($dir)) {
@@ -18,21 +16,27 @@ class FeatureContext extends BehatContext
         chdir($dir);
     }
 
-    /**
-     * @Given /^I have a file named "([^"]*)"$/
-     */
+    /** @Given /^I have a file named "([^"]*)"$/ */
     public function iHaveAFileNamed($file)
     {
         touch($file);
     }
 
-    /**
-     * @When /^I run "([^"]*)"$/
-     */
+    /** @When /^I run "([^"]*)"$/ */
     public function iRun($program)
     {
         exec($program, $output);
         $this->output = trim(implode("\n", $output));
+    }
+
+    /** @Then /^I should get:$/ */
+    public function iShouldGet(PyStringNode $string)
+    {
+        if ((string) $string !== $this->output) {
+            throw new Exception(
+                "Actual output is:\n" . $this->output
+            );
+        }
     }
 
 
